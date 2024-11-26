@@ -47,6 +47,7 @@ public class PaintApp extends JFrame {
                 JFileChooser fileChooser = new JFileChooser();
                 if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                     currentPanel.saveShapesToFile(fileChooser.getSelectedFile().getPath());
+                    tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), fileChooser.getSelectedFile().getName()); // Met à jour le titre de l'onglet
                 }
             }
         });
@@ -56,6 +57,7 @@ public class PaintApp extends JFrame {
                 JFileChooser fileChooser = new JFileChooser();
                 if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                     currentPanel.loadShapesFromFile(fileChooser.getSelectedFile().getPath());
+                    tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), fileChooser.getSelectedFile().getName()); // Met à jour le titre de l'onglet
                 }
             }
         });
