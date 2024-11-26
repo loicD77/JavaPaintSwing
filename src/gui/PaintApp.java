@@ -94,10 +94,28 @@ public class PaintApp extends JFrame {
             }
         });
 
+        // Menu Édition
+        JMenu editMenu = new JMenu("Édition");
+        JMenuItem deleteItem = new JMenuItem("Supprimer");
+        JMenuItem moveItem = new JMenuItem("Déplacer");
+        JMenuItem resizeItem = new JMenuItem("Redimensionner");
+
+        deleteItem.addActionListener(e -> setCurrentDrawMode("Delete"));
+        moveItem.addActionListener(e -> setCurrentDrawMode("Move"));
+        resizeItem.addActionListener(e -> setCurrentDrawMode("Resize"));
+
+        editMenu.add(deleteItem);
+        editMenu.add(moveItem);
+        editMenu.add(resizeItem);
+
         // Ajouter les menus à la barre de menus
-        menuBar.add(fileMenu);
-        menuBar.add(toolsMenu);
-        menuBar.add(colorMenu);
+        menuBar.add(fileMenu); // Menu "Fichier"
+        menuBar.add(toolsMenu); // Menu "Outils"
+        menuBar.add(colorMenu); // Menu "Couleur"
+
+        // Ajouter un espace invisible pour pousser le menu "Édition" à droite
+        menuBar.add(Box.createHorizontalGlue());
+        menuBar.add(editMenu); // Menu "Édition" à droite
 
         return menuBar;
     }

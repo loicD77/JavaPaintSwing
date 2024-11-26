@@ -25,4 +25,27 @@ public class FreehandShape extends Shape {
     public void update(Point currentPoint) {
         points.add(currentPoint);
     }
+
+    @Override
+    public boolean contains(Point point) {
+        // Vérifie si un point est proche d’un des points de la forme
+        for (Point p : points) {
+            if (p.distance(point) < 5) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void move(int dx, int dy) {
+        for (Point p : points) {
+            p.translate(dx, dy);
+        }
+    }
+
+    @Override
+    public void resize(Point currentPoint) {
+        // Non applicable pour FreehandShape
+    }
 }

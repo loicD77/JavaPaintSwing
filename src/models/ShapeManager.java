@@ -2,25 +2,56 @@ package models;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShapeManager {
-    private ArrayList<Shape> shapes = new ArrayList<>();
+    private List<Shape> shapes = new ArrayList<>();
+    private Shape selectedShape = null;
 
     public void addShape(Shape shape) {
         shapes.add(shape);
     }
 
-    public ArrayList<Shape> getShapes() {
+    public List<Shape> getShapes() {
         return shapes;
     }
 
-    public void setShapes(ArrayList<Shape> shapes) {
+    public void setShapes(List<Shape> shapes) {
         this.shapes = shapes;
     }
 
     public void drawAllShapes(Graphics g) {
         for (Shape shape : shapes) {
-            shape.draw(g); // Dessine chaque forme
+            shape.draw(g);
+        }
+    }
+
+    public void selectShape(Point point) {
+        selectedShape = null;
+        for (Shape shape : shapes) {
+            if (shape.contains(point)) {
+                selectedShape = shape;
+                break;
+            }
+        }
+    }
+
+    public void deleteSelectedShape() {
+        if (selectedShape != null) {
+            shapes.remove(selectedShape);
+            selectedShape = null;
+        }
+    }
+
+    public void moveSelectedShape(int x, int y) {
+        if (selectedShape != null) {
+            selectedShape.move(x, y);
+        }
+    }
+
+    public void resizeSelectedShape(Point point) {
+        if (selectedShape != null) {
+            selectedShape.resize(point);
         }
     }
 }

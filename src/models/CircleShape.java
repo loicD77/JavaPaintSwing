@@ -9,7 +9,7 @@ public class CircleShape extends Shape {
     public CircleShape(Color color, Point center) {
         super(color);
         this.center = center;
-        this.radius = 0;
+        this.radius = 0; // Initialisation avec un rayon nul
     }
 
     @Override
@@ -20,6 +20,24 @@ public class CircleShape extends Shape {
 
     @Override
     public void update(Point currentPoint) {
+        // Calcule le rayon comme la distance entre le centre et le point actuel
+        this.radius = (int) center.distance(currentPoint);
+    }
+
+    @Override
+    public boolean contains(Point point) {
+        // Vérifie si le point est dans le cercle
+        return center.distance(point) <= radius;
+    }
+
+    @Override
+    public void move(int dx, int dy) {
+        center.translate(dx, dy);
+    }
+
+    @Override
+    public void resize(Point currentPoint) {
+        // Redimensionne en recalculant le rayon
         this.radius = (int) center.distance(currentPoint);
     }
 }

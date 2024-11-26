@@ -15,15 +15,37 @@ public class RectangleShape extends Shape {
     @Override
     public void draw(Graphics g) {
         g.setColor(color);
-        int x = Math.min(startPoint.x, endPoint.x);
-        int y = Math.min(startPoint.y, endPoint.y);
-        int width = Math.abs(startPoint.x - endPoint.x);
-        int height = Math.abs(startPoint.y - endPoint.y);
-        g.drawRect(x, y, width, height);
+        g.drawRect(
+                Math.min(startPoint.x, endPoint.x),
+                Math.min(startPoint.y, endPoint.y),
+                Math.abs(endPoint.x - startPoint.x),
+                Math.abs(endPoint.y - startPoint.y)
+        );
     }
 
     @Override
     public void update(Point currentPoint) {
         this.endPoint = currentPoint;
+    }
+
+    @Override
+    public void move(int dx, int dy) {
+        startPoint.translate(dx, dy);
+        endPoint.translate(dx, dy);
+    }
+
+    @Override
+    public void resize(Point point) {
+        this.endPoint = point;
+    }
+
+    @Override
+    public boolean contains(Point point) {
+        int x = Math.min(startPoint.x, endPoint.x);
+        int y = Math.min(startPoint.y, endPoint.y);
+        int width = Math.abs(endPoint.x - startPoint.x);
+        int height = Math.abs(endPoint.y - startPoint.y);
+
+        return (point.x >= x && point.x <= x + width && point.y >= y && point.y <= y + height);
     }
 }
