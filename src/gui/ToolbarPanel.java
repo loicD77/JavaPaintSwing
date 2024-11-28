@@ -1,7 +1,5 @@
 package gui;
 
-import utils.ColorPicker;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,14 +9,20 @@ public class ToolbarPanel extends JToolBar {
     public ToolbarPanel() {
         JButton rectangleButton = new JButton("Rectangle");
         JButton circleButton = new JButton("Circle");
+        JButton triangleButton = new JButton("Triangle");
         JButton freehandButton = new JButton("Freehand");
+        JButton eraserButton = new JButton("Eraser");
+        JButton circleEraserButton = new JButton("Circle Eraser"); // Ajout de la gomme circulaire
         JButton colorPickerButton = new JButton("Color");
         JButton saveButton = new JButton("Save");
         JButton loadButton = new JButton("Load");
 
         add(rectangleButton);
         add(circleButton);
+        add(triangleButton);
         add(freehandButton);
+        add(eraserButton);
+        add(circleEraserButton); // Ajoute le bouton pour gomme circulaire
         add(colorPickerButton);
         add(saveButton);
         add(loadButton);
@@ -26,9 +30,12 @@ public class ToolbarPanel extends JToolBar {
         // Actions des boutons
         rectangleButton.addActionListener(e -> drawingPanel.setDrawMode("Rectangle"));
         circleButton.addActionListener(e -> drawingPanel.setDrawMode("Circle"));
+        triangleButton.addActionListener(e -> drawingPanel.setDrawMode("Triangle"));
         freehandButton.addActionListener(e -> drawingPanel.setDrawMode("Freehand"));
+        eraserButton.addActionListener(e -> drawingPanel.setDrawMode("Eraser"));
+        circleEraserButton.addActionListener(e -> drawingPanel.setDrawMode("CircleEraser")); // Action pour gomme circulaire
         colorPickerButton.addActionListener(e -> {
-            Color selectedColor = ColorPicker.pickColor(null, Color.BLACK);
+            Color selectedColor = JColorChooser.showDialog(null, "Select a Color", Color.BLACK);
             if (selectedColor != null) {
                 drawingPanel.setCurrentColor(selectedColor);
             }

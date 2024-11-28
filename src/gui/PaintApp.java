@@ -47,20 +47,25 @@ public class PaintApp extends JFrame {
                 JFileChooser fileChooser = new JFileChooser();
                 if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                     currentPanel.saveShapesToFile(fileChooser.getSelectedFile().getPath());
-                    tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), fileChooser.getSelectedFile().getName()); // Met à jour le titre de l'onglet
+                    tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), fileChooser.getSelectedFile().getName());
                 }
             }
         });
         loadItem.addActionListener(e -> {
             DrawingPanel currentPanel = getCurrentDrawingPanel();
-            if (currentPanel != null) {
-                JFileChooser fileChooser = new JFileChooser();
-                if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-                    currentPanel.loadShapesFromFile(fileChooser.getSelectedFile().getPath());
-                    tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), fileChooser.getSelectedFile().getName()); // Met à jour le titre de l'onglet
-                }
+            if (currentPanel == null) {
+                // Créer un nouvel onglet avec un panneau de dessin s'il n'y en a pas
+                addNewTab("Nouveau fichier");
+                currentPanel = getCurrentDrawingPanel(); // Récupérer le panneau créé
+            }
+            JFileChooser fileChooser = new JFileChooser();
+            if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                currentPanel.loadShapesFromFile(fileChooser.getSelectedFile().getPath());
+                tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), fileChooser.getSelectedFile().getName());
             }
         });
+
+
         closeTabItem.addActionListener(e -> closeCurrentTab());
 
         // Menu Outils
@@ -70,11 +75,14 @@ public class PaintApp extends JFrame {
         JMenuItem triangleTool = new JMenuItem("Triangle");
         JMenuItem freehandTool = new JMenuItem("Main levée");
         JMenuItem eraserTool = new JMenuItem("Gomme");
+        JMenuItem circleEraserTool = new JMenuItem("Gomme Circulaire");
+
         toolsMenu.add(rectangleTool);
         toolsMenu.add(circleTool);
         toolsMenu.add(triangleTool);
         toolsMenu.add(freehandTool);
         toolsMenu.add(eraserTool);
+        toolsMenu.add(circleEraserTool);
 
         // Actions Outils
         rectangleTool.addActionListener(e -> setCurrentDrawMode("Rectangle"));
@@ -82,13 +90,13 @@ public class PaintApp extends JFrame {
         triangleTool.addActionListener(e -> setCurrentDrawMode("Triangle"));
         freehandTool.addActionListener(e -> setCurrentDrawMode("Freehand"));
         eraserTool.addActionListener(e -> setCurrentDrawMode("Eraser"));
+        circleEraserTool.addActionListener(e -> setCurrentDrawMode("CircleEraser"));
 
         // Menu Couleur
         JMenu colorMenu = new JMenu("Couleur");
         JMenuItem chooseColor = new JMenuItem("Choisir une couleur");
         colorMenu.add(chooseColor);
 
-        // Action Couleur
         chooseColor.addActionListener(e -> {
             Color selectedColor = JColorChooser.showDialog(this, "Choisir une couleur", Color.BLACK);
             if (selectedColor != null) {
@@ -111,13 +119,11 @@ public class PaintApp extends JFrame {
         editMenu.add(resizeItem);
 
         // Ajouter les menus à la barre de menus
-        menuBar.add(fileMenu); // Menu "Fichier"
-        menuBar.add(toolsMenu); // Menu "Outils"
-        menuBar.add(colorMenu); // Menu "Couleur"
-
-        // Ajouter un espace invisible pour pousser le menu "Édition" à droite
+        menuBar.add(fileMenu);
+        menuBar.add(toolsMenu);
+        menuBar.add(colorMenu);
         menuBar.add(Box.createHorizontalGlue());
-        menuBar.add(editMenu); // Menu "Édition" à droite
+        menuBar.add(editMenu);
 
         return menuBar;
     }

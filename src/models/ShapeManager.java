@@ -43,9 +43,9 @@ public class ShapeManager {
         }
     }
 
-    public void moveSelectedShape(int x, int y) {
+    public void moveSelectedShape(int dx, int dy) {
         if (selectedShape != null) {
-            selectedShape.move(x, y);
+            selectedShape.move(dx, dy);
         }
     }
 
